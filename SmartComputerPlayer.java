@@ -18,11 +18,18 @@ public class SmartComputerPlayer
     }
     
     //in progress
-    public int takeTurn (int humanMove)
+    public int takeTurn ()
     {
         if (memory.size()>=1)
         {
-            int pos = checkMemory(humanMove);
+            int pos = (int)(Math.random()*8);
+            //System.out.println("computer position: "+ pos);
+            while(board.isEmpty(pos)==false || checkMemory(pos)==true)
+            {
+                pos = (int)(Math.random()*8);
+                //System.out.println("computer position: "+ pos);
+            }
+            board.put(pos, 'O');
             return pos;
         }
         else
@@ -40,18 +47,26 @@ public class SmartComputerPlayer
     public void remember(GameBoard pastBoard)
     {
         memory.add(pastBoard);
-        System.out.println("memory: ");
-        for (int i=0; i<memory.size(); i++)
-        {
-            System.out.println(memory.get(i));
-        }
+        // System.out.println("memory: ");
+        // for (int i=0; i<memory.size(); i++)
+        // {
+            // System.out.println(memory.get(i));
+        // }
     }
     
     //in progress
-    public int checkMemory(int humanMove)
+    public boolean checkMemory(int pos)
     {
-        
-        return 0;
+        GameBoard boardCopy = board.copy();
+        boardCopy.put(pos, 'O');
+        for (int i=0; i<memory.size(); i++)
+        {
+            if (boardCopy.equals(memory.get(i)))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     public int takeTurnRandom ()

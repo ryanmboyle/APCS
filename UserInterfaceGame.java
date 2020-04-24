@@ -64,8 +64,9 @@ public class UserInterfaceGame
      */
     private void freshStart ()
     {
-        GameBoard copy = board.copy();
-        smartComp.remember(copy);
+        //put this somewhere else
+        //GameBoard copy = board.copy();
+        //smartComp.remember(copy);
         board.clear();
         play();
     }
@@ -165,27 +166,34 @@ public class UserInterfaceGame
                 return false;
             }
             System.out.println("Player is moving to position " + position);
+            
+            GameBoard copy = board.copy();
+            
             human.takeTurn(position);
             System.out.println(board);
+
             //win? tie?
             if(board.win('X'))
             {
                 System.out.println("Game over, you won!");
-                //return true;
+                
+                smartComp.remember(copy);
                 freshStart();
             }
             else if (board.isFull() && !board.win('X'))
             {
                 System.out.println("Game over, it was a tie");
-                //return true;
+                
                 freshStart();
             }
             
             //in progress
             
-            int compPos=smartComp.takeTurn(position);
+            int compPos=smartComp.takeTurn();
             System.out.println("Computer is moving to position " + compPos);
             System.out.println(board);
+            
+            
             //win? tie?
             if(board.win('O'))
             {
